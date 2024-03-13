@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Directories</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<h1>Upload Directories</h1>
+<form id="uploadForm" enctype="multipart/form-data">
+    <label for="directory1">Upload Directory 1:</label>
+    <input type="file" id="directory1" name="directory1" webkitdirectory directory multiple required><br>
+
+    <label for="directory2">Upload Directory 2:</label>
+    <input type="file" id="directory2" name="directory2" webkitdirectory directory multiple required><br>
+
+    <button type="submit">Compare Directories</button>
+</form>
+
+<script>
+    $(document).ready(function(){
+        $('#uploadForm').submit(function(event){
+            event.preventDefault();
+
+            var formData = new FormData($(this)[0]);
+
+            $.ajax({
+                url: '/compareDirectories',
+                type: 'POST',
+                data: formData,
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function(response){
+                    // Handle success response
+                    console.log(response);
+                },
+                error: function(jqXHR, textStatus, errorThrown){
+                    // Handle error response
+                    console.error(jqXHR.responseText);
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>
